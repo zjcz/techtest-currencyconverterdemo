@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    </head>
+    <body>        
+        <div class="container">
+            <h1>Currency Converter Demo</h1>
+            <p>Please select the currency to convert you GBP to and enter your amount</p>
+            <form action="#" th:action="@{/}" th:object="${exchangeRateViewModel}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Currency</label>
+                    <select th:field="*{currencyCode}" class="form-select">
+                        <option th:each="code : ${currencyCodes}" th:value="${code}"  th:text="${code}"></option>
+                    </select>
+                    <div th:if="${#fields.hasErrors('currencyCode')}" th:errors="*{currencyCode}">Currency Error</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Amount</label>
+                    <input type="text" th:field="*{baseAmount}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('baseAmount')}" th:errors="*{baseAmount}">Amount Error</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Calculate</button>
+
+                <div th:if="*{isResultCalculated}">
+                    <h3>Results</h3>
+                    <div class="mb-3">
+                        <label class="form-label">Exchange Rate</label>
+                        <input type="text" th:field="*{exchangeRate}" class="form-control" disabled />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Converted Amount</label>
+                        <input type="text" th:field="*{convertedAmount}" class="form-control" disabled />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
